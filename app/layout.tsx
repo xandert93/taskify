@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Taskify',
+  title: 'TaskZen',
   description:
     'Organize tasks effortlessly with intuitive boards, lists, and cards for seamless collaboration.',
 }

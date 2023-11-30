@@ -14,7 +14,7 @@ export const Logo = () => {
   return (
     <Link href={PATHS.HOME} className="hidden md:block">
       <div className="flex items-center gap-2 hover:opacity-75 transition">
-        <Image src="/logo.svg" alt="Logo" height={32} width={32} />
+        <Image src="/logo.gif" alt="Logo" height={32} width={32} />
         <p className={cn('text-lg text-neutral-700', headingFont.className)}>TaskZen</p>
       </div>
     </Link>

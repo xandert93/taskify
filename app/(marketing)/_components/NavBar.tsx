@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { Logo } from '@/components/Logo'
 import { Button } from '@/components/ui/button'
-import { PATHS } from '@/constants/path-constants'
+import { paths } from '@/constants/path-constants'
 
 export const NavBar = () => {
   return (
@@ -11,10 +11,10 @@ export const NavBar = () => {
         <Logo />
         <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
           <Button size="sm" variant="outline" asChild>
-            <Link href={PATHS.REGISTER}>Login</Link>
+            <Link href={paths.login}>Login</Link>
           </Button>
           <Button size="sm" asChild>
-            <Link href={PATHS.REGISTER}>Sign Up</Link>
+            <Link href={paths.register}>Sign Up</Link>
           </Button>
         </div>
       </div>

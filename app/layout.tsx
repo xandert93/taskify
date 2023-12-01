@@ -1,13 +1,11 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import { fonts } from '@/constants/font-constants'
 
 export const metadata: Metadata = {
   title: 'TaskZen',
   description:
-    'Organize tasks effortlessly with intuitive boards, lists, and cards for seamless collaboration.',
+    'Organise tasks effortlessly with intuitive boards, lists, and cards for seamless collaboration.',
 }
 
 type Props = {
@@ -17,7 +15,7 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={fonts.text.className}>{children}</body>
     </html>
   )
 }

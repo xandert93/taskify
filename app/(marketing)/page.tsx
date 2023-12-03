@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { paths } from '@/constants/path-constants'
 import { fonts } from '@/constants/font-constants'
+import { site } from '@/config/site-config'
 
 export default function MarketingPage() {
   return (
@@ -22,18 +23,18 @@ export default function MarketingPage() {
         <span className="block mb-4 sm:mb-6 md:mb-8 lg:mb-10 xl:mb-12 text-neutral-800">
           Drive your team forward
         </span>
-        <span className="inline-block bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white rounded-md px-4 py-2">
-          with TaskZen
+        <span className="inline-block bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white rounded-lg px-4 py-2">
+          with {site.name}
         </span>
       </h1>
 
       <div className="text-sm md:text-xl text-neutral-400 max-w-sm md:max-w-2xl">
         <p className="mb-2">Teaming up, project mastery, and peak productivity.</p>
-        <p>From offices to home desks, your unique workflow excels with TaskZen.</p>
+        <p>From offices to home desks, your unique workflow excels with {site.name}.</p>
       </div>
       <Button size="lg" asChild>
         <Link href={paths.register} className="text-lg">
-          Try TaskZen for free
+          Try {site.name} for free
         </Link>
       </Button>
     </div>

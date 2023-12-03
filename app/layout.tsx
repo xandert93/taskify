@@ -1,11 +1,20 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { fonts } from '@/constants/font-constants'
+import { site } from '@/config/site-config'
 
 export const metadata: Metadata = {
-  title: 'TaskZen',
-  description:
-    'Organise tasks effortlessly with intuitive boards, lists, and cards for seamless collaboration.',
+  title: {
+    default: site.name, // 🔥 if a page doesn't specify a dynamic template title, this one is used
+    template: `%s | ${site.name}`,
+  },
+  description: site.description,
+  icons: [
+    {
+      url: '/logo.svg',
+      href: '/logo.svg',
+    },
+  ],
 }
 
 type Props = {

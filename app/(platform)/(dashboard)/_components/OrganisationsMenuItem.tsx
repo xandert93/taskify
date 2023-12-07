@@ -117,7 +117,7 @@ const OrganisationSubPageLink = ({
   )
 }
 
-OrganisationsMenuItem.Skeleton = () => {
+export const OrganisationsMenuItemSkeleton = () => {
   return (
     <div className="flex items-center gap-x-2">
       <div className="w-10 h-10 relative shrink-0">

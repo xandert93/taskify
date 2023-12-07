@@ -11,7 +11,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Accordion } from '@/components/ui/accordion'
 import { paths } from '@/constants/path-constants'
 
-import { OrganisationsMenuItem, Organisation } from './OrganisationsMenuItem'
+import {
+  OrganisationsMenuItem,
+  Organisation,
+  OrganisationsMenuItemSkeleton,
+} from './OrganisationsMenuItem'
 
 interface Props {
   lsKey: string
@@ -59,7 +63,6 @@ export const OrganisationsMenu = ({ lsKey }: Props) => {
               handleExpand={handleExpand}
             />
           ))}
-          <Separator />
         </Accordion>
       </>
     )
@@ -73,9 +76,9 @@ const SideNavSkeleton = () => {
         <Skeleton className="h-10 w-10" />
       </div>
       <div className="space-y-2">
-        <OrganisationsMenuItem.Skeleton />
-        <OrganisationsMenuItem.Skeleton />
-        <OrganisationsMenuItem.Skeleton />
+        <OrganisationsMenuItemSkeleton />
+        <OrganisationsMenuItemSkeleton />
+        <OrganisationsMenuItemSkeleton />
       </div>
     </>
   )

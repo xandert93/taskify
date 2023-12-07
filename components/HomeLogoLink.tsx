@@ -6,9 +6,13 @@ import { paths } from '@/constants/path-constants'
 import { site } from '@/config/site-config'
 import { fonts } from '@/constants/font-constants'
 
-export const Logo = () => {
+type Props = {
+  className: string
+}
+
+export const HomeLogoLink = (props: Props) => {
   return (
-    <Link href={paths.home} className="hidden md:block">
+    <Link href={paths.home} className={cn(props.className)}>
       <div className="flex items-center gap-2 hover:opacity-75 transition">
         <Image src="/logo.gif" alt="Logo" height={32} width={32} />
         <p className={cn('text-lg text-neutral-700', fonts.heading.className)}>

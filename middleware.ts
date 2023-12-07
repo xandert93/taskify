@@ -13,6 +13,8 @@ export default authMiddleware({
   publicRoutes: [paths.home, '/api/webhook'],
 
   afterAuth(auth, req, e) {
+    // A user can belong to multiple organisations e.g. Northcoders and Hyperion. `auth.orgId` returns the ID of the organisation the user was last visiting
+
     const isLoggedIn = Boolean(auth.userId)
     const fromPublicRoute = auth.isPublicRoute // is page they were on (or tried to access) before auth started public?
     const hasOrganisation = Boolean(auth.orgId)
@@ -29,6 +31,7 @@ export default authMiddleware({
     if (!isLoggedIn && !fromPublicRoute) {
       return redirectToSignIn({ returnBackUrl: req.url })
     }
+
     // force authenticated organisation-less users to organisation selection page
     if (
       isLoggedIn &&

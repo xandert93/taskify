@@ -1,19 +1,17 @@
 import { Plus as PlusIcon } from 'lucide-react'
 import { OrganizationSwitcher, UserButton } from '@clerk/nextjs'
 
-import { Logo } from '@/components/Logo'
+import { HomeLogoLink } from '@/components/HomeLogoLink'
 import { Button } from '@/components/ui/button'
 import { paths } from '@/constants/path-constants'
+import { SideNavButton } from './SideNav/SideNav'
 
 export const NavBar = () => {
   return (
-    <nav className="fixed z-50 top-0 px-4 w-full h-14 md:h-16 border-b shadow-sm bg-white flex items-center justify-between">
-      {/* <SideNavigation /> */}
+    <nav className="h-14 md:h-16 px-4 border-b shadow-sm bg-white flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="hidden md:flex">
-          <Logo />
-        </div>
-
+        <SideNavButton className="block md:hidden" />
+        <HomeLogoLink className="hidden md:block" />
         <Button variant="primary" size="sm" className="rounded-sm h-auto py-1.5 px-2">
           <span className="hidden md:block">Create</span>
           <span className="md:hidden">

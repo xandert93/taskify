@@ -5,5 +5,5 @@ type Props = {
 }
 
 export default function SingleOrganisationPage({ params: { id } }: Props) {
-  return <div>{id}</div>
+  return <div>Organisation ID: {id}</div>
 }

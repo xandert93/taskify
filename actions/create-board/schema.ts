@@ -6,7 +6,7 @@ export const CreateBoardSchema = z.object({
       required_error: 'Please provide a title',
       invalid_type_error: 'Please provide a title',
     })
-    .min(3, {
+    .min(6, {
       message: 'That title is too short',
     }),
   image: z.string({

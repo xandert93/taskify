@@ -8,24 +8,25 @@ import { genServerAction } from '@/lib/gen-server-action'
 import { NewBoard, ReturnType } from './types'
 import { CreateBoardSchema } from './schema'
 
-import { createAuditLog } from '@/lib/create-audit-log'
+// import { createAuditLog } from '@/lib/create-audit-log'
 import { ACTION, ENTITY_TYPE } from '@prisma/client'
-import { incrementAvailableCount, hasAvailableCount } from '@/lib/org-limit'
-import { checkSubscription } from '@/lib/subscription'
+// import { incrementAvailableCount, hasAvailableCount } from '@/lib/org-limit'
+// import { checkSubscription } from '@/lib/subscription'
 
 const handler = async (newBoard: NewBoard): Promise<ReturnType> => {
   const { userId, orgId } = auth()
 
   if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
-  const canCreate = await hasAvailableCount()
-  const isPro = await checkSubscription()
+  // const canCreate = await hasAvailableCount()
+  // const isPro = await checkSubscription()
+  let canCreate = true
+  let isPro = false
 
-  if (!canCreate && !isPro) {
+  if (!canCreate && !isPro)
     return {
       error: 'You have reached your limit of free boards. Please upgrade to create more.',
     }
-  }
 
   const { title, image } = newBoard
 

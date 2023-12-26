@@ -14,10 +14,9 @@ import { NewBoardsRemaining } from './NewBoardsRemaining'
 
 export const BoardList = async () => {
   const { orgId } = auth()
-
   if (!orgId) return redirect(paths.select_organisation)
 
-  // const boards = await getOrgBoards(orgId)
+  const boards = await getOrgBoards(orgId)
 
   return (
     <div className="space-y-4">
@@ -26,9 +25,9 @@ export const BoardList = async () => {
         Your boards
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {/* {boards.map((board) => (
+        {boards.map((board) => (
           <BoardLink key={board.id} {...board} />
-        ))} */}
+        ))}
         <BoardCreateFormPopover sideOffset={10} side="right">
           <div
             role="button"

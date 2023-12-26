@@ -21,7 +21,7 @@ export const useServerAction = <TInput, TOutput>(
   const [data, setData] = useState<TOutput | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
-  const execute = useCallback(
+  const mutate = useCallback(
     async (input: TInput) => {
       setIsLoading(true)
 
@@ -50,7 +50,7 @@ export const useServerAction = <TInput, TOutput>(
   )
 
   return {
-    execute,
+    mutate,
     fieldErrors,
     error: errorMessage,
     data,

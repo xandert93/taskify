@@ -10,7 +10,7 @@ export const CreateBoardSchema = z.object({
       message: 'That title is too short',
     }),
   image: z.string({
-    required_error: 'Please provide an image',
-    invalid_type_error: 'Please provide an image',
+    required_error: 'Please select an image',
+    invalid_type_error: 'Please select an image',
   }),
 })

@@ -5,6 +5,7 @@ import { HomeLogoLink } from '@/components/HomeLogoLink'
 import { Button } from '@/components/ui/button'
 import { paths } from '@/constants/path-constants'
 import { SideNavButton } from './SideNav/SideNav'
+import { BoardCreateFormPopover } from '@/components/form/BoardCreateFormPopover'
 
 export const NavBar = () => {
   return (
@@ -12,11 +13,16 @@ export const NavBar = () => {
       <div className="flex items-center gap-4">
         <SideNavButton className="block md:hidden" />
         <HomeLogoLink className="hidden md:block" />
+
         <Button variant="primary" size="sm" className="rounded-sm h-auto py-1.5 px-2">
-          <span className="hidden md:block">Create</span>
-          <span className="md:hidden">
-            <PlusIcon className="h-4 w-4" />
-          </span>
+          <BoardCreateFormPopover align="start" side="bottom" sideOffset={18}>
+            <span className="hidden md:block">Create</span>
+          </BoardCreateFormPopover>
+          <BoardCreateFormPopover>
+            <span className="md:hidden">
+              <PlusIcon className="h-4 w-4" />
+            </span>
+          </BoardCreateFormPopover>
         </Button>
       </div>
       <div className="flex items-center gap-2">

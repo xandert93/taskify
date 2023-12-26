@@ -13,65 +13,55 @@ import { ACTION, ENTITY_TYPE } from '@prisma/client'
 // import { incrementAvailableCount, hasAvailableCount } from '@/lib/org-limit'
 // import { checkSubscription } from '@/lib/subscription'
 
-const handler = async (newBoard: NewBoard): Promise<ReturnType> => {
+const handler = async (rawNewBoard: NewBoard): Promise<ReturnType> => {
   const { userId, orgId } = auth()
 
   if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
-  // const canCreate = await hasAvailableCount()
-  // const isPro = await checkSubscription()
-  let canCreate = true
-  let isPro = false
+  // const isBelowLimit = await hasAvailableCount()
+  // const isSubscriber = await checkSubscription()
+  let isBelowLimit = true
+  let isSubscriber = false
 
-  if (!canCreate && !isPro)
+  const canCreate = isBelowLimit || isSubscriber
+
+  if (!canCreate)
     return {
       error: 'You have reached your limit of free boards. Please upgrade to create more.',
     }
 
-  const { title, image } = newBoard
+  const { title, image } = rawNewBoard
 
   const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
     image.split('|')
 
-  if (!imageId || !imageThumbUrl || !imageFullUrl || !imageUserName || !imageLinkHTML) {
-    return {
-      error: 'Missing fields. Failed to create board.',
-    }
+  const newBoard = {
+    title,
+    orgId,
+    imageId,
+    imageThumbUrl,
+    imageFullUrl,
+    imageUserName,
+    imageLinkHTML,
   }
-
-  let board
 
   try {
-    board = await db.board.create({
-      data: {
-        title,
-        orgId,
-        imageId,
-        imageThumbUrl,
-        imageFullUrl,
-        imageUserName,
-        imageLinkHTML,
-      },
-    })
+    const savedBoard = await db.board.create({ data: newBoard })
 
-    if (!isPro) {
-      await incrementAvailableCount()
-    }
+    // if (!isSubscriber) await incrementAvailableCount()
 
-    await createAuditLog({
-      entityTitle: board.title,
-      entityId: board.id,
-      entityType: ENTITY_TYPE.BOARD,
-      action: ACTION.CREATE,
-    })
+    // await createAuditLog({
+    //   entityTitle: board.title,
+    //   entityId: board.id,
+    //   entityType: ENTITY_TYPE.BOARD,
+    //   action: ACTION.CREATE,
+    // })
+
+    revalidatePath(`/board/${savedBoard.id}`)
+    return { data: savedBoard }
   } catch (err) {
-    return {
-      error: 'Failed to create.',
-    }
+    return { error: 'Failed to create board' }
   }
-
-  revalidatePath(`/board/${board.id}`)
-  return { data: board }
 }
 
 export const createBoard = genServerAction(CreateBoardSchema, handler)

@@ -11,7 +11,7 @@ import { createBoard } from '@/actions/create-board'
 
 import { FormInput } from './FormInput'
 import { SubmitButton } from './SubmitButton'
-import { FormPicker } from './FormPicker'
+import { BoardCreateFormImagePicker } from './BoardCreateFormImagePicker'
 import { RefObject } from 'react'
 
 type Props = {
@@ -22,7 +22,7 @@ export const BoardCreateForm = (props: Props) => {
   // const proModal = useProModal()
   const router = useRouter()
 
-  const { execute: mutate, fieldErrors } = useServerAction(createBoard, {
+  const { mutate, fieldErrors } = useServerAction(createBoard, {
     onSuccess: (data) => {
       toast.success('Board created!')
       props.closeRef.current?.click()
@@ -47,8 +47,8 @@ export const BoardCreateForm = (props: Props) => {
   return (
     <form action={handleSubmit} className="space-y-4">
       <div className="space-y-4">
-        {/* <FormPicker id="image" errors={fieldErrors} /> */}
-        <FormInput id="title" label="Board title" type="text" errors={fieldErrors} />
+        <BoardCreateFormImagePicker id="image" errors={fieldErrors} />
+        <FormInput id="title" label="Title" type="text" errors={fieldErrors} />
       </div>
       <SubmitButton className="w-full">Create</SubmitButton>
     </form>

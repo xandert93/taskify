@@ -8,7 +8,7 @@ import { BoardCreateFormPopover } from '@/components/form/BoardCreateFormPopover
 
 import { paths } from '@/constants/path-constants'
 
-import { BoardLink } from './BoardLink'
+import { BoardPreviewLink } from './BoardPreviewLink'
 import { getOrgBoards } from '@/actions/get-org-boards'
 import { NewBoardsRemaining } from './NewBoardsRemaining'
 
@@ -26,7 +26,7 @@ export const BoardList = async () => {
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {boards.map((board) => (
-          <BoardLink key={board.id} {...board} />
+          <BoardPreviewLink key={board.id} {...board} />
         ))}
         <BoardCreateFormPopover sideOffset={10} side="right">
           <div

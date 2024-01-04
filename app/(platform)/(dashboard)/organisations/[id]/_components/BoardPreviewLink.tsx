@@ -1,7 +1,7 @@
 import { Board } from '@prisma/client'
 import Link from 'next/link'
 
-export const BoardLink = ({ id, imageThumbUrl, title }: Board) => {
+export const BoardPreviewLink = ({ id, imageThumbUrl, title }: Board) => {
   return (
     <Link
       href={`/board/${id}`}

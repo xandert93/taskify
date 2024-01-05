@@ -15,6 +15,7 @@ export default async function SingleOrganisationPage() {
       <BoardHeader isPro={isPro} />
       <Separator className="my-4" />
       <div className="px-2 md:px-4">
+        {/* 🔥 renders fallback as long as child component has not returned */}
         <Suspense fallback={<BoardList.Skeleton />}>
           <BoardList />
         </Suspense>

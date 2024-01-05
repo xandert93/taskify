@@ -1,8 +1,7 @@
 import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
-import { HelpCircleIcon, User2Icon } from 'lucide-react'
+import { User2Icon } from 'lucide-react'
 
-import { Tooltip } from '@/components/Tooltip'
 import { Skeleton } from '@/components/ui/skeleton'
 import { BoardCreateFormPopover } from '@/components/form/BoardCreateFormPopover'
 
@@ -11,6 +10,7 @@ import { paths } from '@/constants/path-constants'
 import { BoardPreviewLink } from './BoardPreviewLink'
 import { getOrgBoards } from '@/actions/get-org-boards'
 import { NewBoardsRemaining } from './NewBoardsRemaining'
+import { NewBoardTooltip } from './NewBoardTooltip'
 
 export const BoardList = async () => {
   const { orgId } = auth()
@@ -31,10 +31,10 @@ export const BoardList = async () => {
         <BoardCreateFormPopover sideOffset={10} side="right">
           <div
             role="button"
-            className="aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition"
+            className="aspect-video relative h-full w-full bg-muted rounded-sm p-1 text-center flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition"
           >
             <p className="text-sm">Create new board</p>
-            {/* <NewBoardsRemaining /> */}
+            <NewBoardsRemaining />
             <NewBoardTooltip />
           </div>
         </BoardCreateFormPopover>
@@ -43,18 +43,7 @@ export const BoardList = async () => {
   )
 }
 
-const NewBoardTooltip = () => {
-  return (
-    <Tooltip
-      sideOffset={40}
-      description="Free Workspaces can have up to 5 open boards. For unlimited boards upgrade this workspace."
-    >
-      <HelpCircleIcon className="absolute bottom-2 right-2 h-[14px] w-[14px]" />
-    </Tooltip>
-  )
-}
-
-BoardList.Skeleton = function SkeletonBoardList() {
+BoardList.Skeleton = function BoardListSkeleton() {
   return (
     <div className="grid gird-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       <Skeleton className="aspect-video h-full w-full p-2" />

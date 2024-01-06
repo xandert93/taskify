@@ -5,8 +5,8 @@ import { site } from '@/config/site-config'
 
 export const metadata: Metadata = {
   title: {
-    default: site.name, // 🔥 if a page doesn't specify a dynamic template title, this one is used
-    template: `%s | ${site.name}`,
+    default: site.name,
+    template: `%s | ${site.name}`, // 🔥 if a page doesn't specify a dynamic template `title` via generateMetadata (gets inserted in place of $s placeholder), then the default above is used
   },
   description: site.description,
   icons: [

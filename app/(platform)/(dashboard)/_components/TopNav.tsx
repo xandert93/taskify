@@ -7,7 +7,7 @@ import { paths } from '@/constants/path-constants'
 import { SideNavButton } from './SideNav/SideNav'
 import { BoardCreateFormPopover } from '@/components/form/BoardCreateFormPopover'
 
-export const NavBar = () => {
+export const TopNav = () => {
   return (
     <nav className="h-14 md:h-16 px-4 border-b shadow-sm bg-white flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -16,7 +16,7 @@ export const NavBar = () => {
 
         <Button variant="primary" size="sm" className="rounded-sm h-auto py-1.5 px-2">
           <BoardCreateFormPopover align="start" side="bottom" sideOffset={18}>
-            <span className="hidden md:block">Create</span>
+            <span className="hidden md:block">Create Board</span>
           </BoardCreateFormPopover>
           <BoardCreateFormPopover>
             <span className="md:hidden">

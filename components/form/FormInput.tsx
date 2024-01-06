@@ -19,7 +19,7 @@ interface Props {
   errors?: Record<string, string[] | undefined>
   className?: string
   defaultValue?: string
-  onBlur?: () => void
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
 }
 
 export const FormInput = forwardRef<HTMLInputElement, Props>((props, ref) => {

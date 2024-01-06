@@ -9,51 +9,43 @@ import { genServerAction } from '@/lib/gen-server-action'
 
 import { DeleteBoardSchema } from './schema'
 import { InputType, ReturnType } from './types'
-import { createAuditLog } from '@/lib/create-audit-log'
+// import { createAuditLog } from '@/lib/create-audit-log'
 import { ACTION, ENTITY_TYPE } from '@prisma/client'
-import { decreaseAvailableCount } from '@/lib/org-limit'
-import { checkSubscription } from '@/lib/subscription'
+// import { decreaseAvailableCount } from '@/lib/org-limit'
+// import { checkSubscription } from '@/lib/subscription'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
 
-  if (!userId || !orgId) {
-    return {
-      error: 'Unauthorized',
-    }
-  }
+  if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
-  const isPro = await checkSubscription()
+  // const isPro = await checkSubscription()
 
   const { id } = data
-  let board
 
   try {
-    board = await db.board.delete({
-      where: {
-        id,
-        orgId,
-      },
+    const deletedBoard = await db.board.delete({
+      where: { id, orgId },
     })
 
-    if (!isPro) {
-      await decreaseAvailableCount()
-    }
+    // if (!isPro) {
+    //   await decreaseAvailableCount()
+    // }
 
-    await createAuditLog({
-      entityTitle: board.title,
-      entityId: board.id,
-      entityType: ENTITY_TYPE.BOARD,
-      action: ACTION.DELETE,
-    })
-  } catch (error) {
-    return {
-      error: 'Failed to delete.',
-    }
+    // await createAuditLog({
+    //   entityTitle: deletedBoard.title,
+    //   entityId: deletedBoard.id,
+    //   entityType: ENTITY_TYPE.BOARD,
+    //   action: ACTION.DELETE,
+    // })
+
+    revalidatePath(`/organisations/${orgId}`)
+  } catch (err: any) {
+    console.log(err)
+    return { error: 'Failed to delete board' }
   }
 
-  revalidatePath(`/organization/${orgId}`)
-  redirect(`/organization/${orgId}`)
+  redirect(`/organisations/${orgId}`) // ❓ throws an error when inside try block??
 }
 
 export const deleteBoard = genServerAction(DeleteBoardSchema, handler)

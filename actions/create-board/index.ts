@@ -57,7 +57,7 @@ const handler = async (rawNewBoard: NewBoard): Promise<ReturnType> => {
     //   action: ACTION.CREATE,
     // })
 
-    revalidatePath(`/board/${savedBoard.id}`)
+    revalidatePath(`/boards/${savedBoard.id}`)
     return { data: savedBoard }
   } catch (err) {
     return { error: 'Failed to create board' }

@@ -1,10 +1,20 @@
+import { auth } from '@clerk/nextjs'
 import { OrganisationFromUrlSetter } from './_components/OrganisationFromUrlSetter'
+import { startCase } from 'lodash'
 
 type Props = {
   children: React.ReactNode
 }
 
-const OrganizationIdLayout = ({ children }: Props) => {
+export async function generateMetadata() {
+  const { orgSlug } = auth()
+
+  return {
+    title: startCase(orgSlug || 'Organisation'),
+  }
+}
+
+export default function SingleOrganisationPageLayout({ children }: Props) {
   return (
     <>
       <OrganisationFromUrlSetter />
@@ -12,5 +22,3 @@ const OrganizationIdLayout = ({ children }: Props) => {
     </>
   )
 }
-
-export default OrganizationIdLayout

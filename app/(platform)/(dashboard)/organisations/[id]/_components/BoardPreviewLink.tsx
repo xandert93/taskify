@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const BoardPreviewLink = ({ id, imageThumbUrl, title }: Board) => {
   return (
     <Link
-      href={`/board/${id}`}
+      href={`/boards/${id}`}
       className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-sky-700 rounded-sm h-full w-full p-2 overflow-hidden"
       style={{ backgroundImage: `url(${imageThumbUrl})` }}
     >

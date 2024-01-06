@@ -10,6 +10,8 @@ interface Options<TOutput> {
   onComplete?: () => void
 }
 
+// similar to TSQ's useMutation hook
+
 export const useServerAction = <TInput, TOutput>(
   action: Action<TInput, TOutput>,
   options: Options<TOutput> = {}
@@ -51,9 +53,9 @@ export const useServerAction = <TInput, TOutput>(
 
   return {
     mutate,
-    fieldErrors,
-    error: errorMessage,
     data,
     isLoading,
+    fieldErrors,
+    errorMessage,
   }
 }

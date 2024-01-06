@@ -26,7 +26,7 @@ export const BoardCreateForm = (props: Props) => {
     onSuccess: (data) => {
       toast.success('Board created!')
       props.closeRef.current?.click()
-      router.push(`/board/${data.id}`)
+      router.push(`/boards/${data.id}`)
     },
 
     onError: (error) => {

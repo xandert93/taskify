@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 import { useServerAction } from '@/hooks/useServerAction'
 
-import { createBoard } from '@/actions/create-board'
+import { createBoard } from '@/actions/board/create-board'
 // import { useProModal } from '@/hooks/use-pro-modal'
 
 import { FormInput } from './FormInput'

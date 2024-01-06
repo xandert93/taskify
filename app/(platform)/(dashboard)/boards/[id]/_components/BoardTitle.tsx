@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { FormInput } from '@/components/form/FormInput'
 
 import { useServerAction } from '@/hooks/useServerAction'
-import { updateBoardTitle } from '@/actions/update-board-title'
+import { updateBoardTitle } from '@/actions/board/update-board-title'
 
 type Props = {
   board: Board

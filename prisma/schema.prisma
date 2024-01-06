@@ -28,7 +28,7 @@ model List {
   id        String   @id @default(uuid())
   boardId   String
   title     String
-  order     Int
+  position  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -43,7 +43,7 @@ model Card {
   id          String   @id @default(uuid())
   listId      String
   title       String
-  order       Int
+  position    Int
   description String?  @db.Text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

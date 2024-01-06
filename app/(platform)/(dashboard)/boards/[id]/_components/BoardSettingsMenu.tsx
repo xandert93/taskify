@@ -3,7 +3,7 @@
 import { toast } from 'sonner'
 import { SettingsIcon, XIcon } from 'lucide-react'
 
-import { deleteBoard } from '@/actions/delete-board'
+import { deleteBoard } from '@/actions/board/delete-board'
 import { useServerAction } from '@/hooks/useServerAction'
 import { Button } from '@/components/ui/button'
 import {

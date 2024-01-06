@@ -8,7 +8,7 @@ import { BoardCreateFormPopover } from '@/components/form/BoardCreateFormPopover
 import { paths } from '@/constants/path-constants'
 
 import { BoardPreviewLink } from './BoardPreviewLink'
-import { getOrgBoards } from '@/actions/get-org-boards'
+import { getOrgBoards } from '@/actions/board/get-org-boards'
 import { NewBoardsRemaining } from './NewBoardsRemaining'
 import { NewBoardTooltip } from './NewBoardTooltip'
 

@@ -14,7 +14,7 @@ import {
 import { useServerAction } from '@/hooks/useServerAction'
 import { Button } from '@/components/ui/button'
 import { copyList } from '@/actions/copy-list'
-import { deleteList } from '@/actions/delete-list'
+import { deleteList } from '@/actions/list/delete-list'
 import { FormSubmit } from '@/components/form/form-submit'
 import { Separator } from '@/components/ui/separator'
 

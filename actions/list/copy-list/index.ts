@@ -8,7 +8,7 @@ import { db } from '@/lib/db'
 // import { createAuditLog } from '@/lib/create-audit-log'
 import { genServerAction } from '@/lib/gen-server-action'
 
-import { CopyList } from './schema'
+import { CopyListSchema } from './schema'
 import { InputType, ReturnType } from './types'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
@@ -16,25 +16,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
   const { id, boardId } = data
-  let list
 
   try {
-    const listToCopy = await db.list.findUnique({
-      where: {
-        id,
-        boardId,
-        board: {
-          orgId,
-        },
-      },
-      include: {
-        cards: true,
-      },
+    const foundList = await db.list.findUnique({
+      where: { id, boardId, board: { orgId } },
+      include: { cards: true },
     })
 
-    if (!listToCopy) {
-      return { error: 'List not found' }
-    }
+    if (!foundList) return { error: 'That list does not exist' }
 
     const lastList = await db.list.findFirst({
       where: { boardId },
@@ -44,14 +33,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
     const newPosition = lastList ? lastList.position + 1 : 1
 
-    list = await db.list.create({
+    const savedListCopy = await db.list.create({
       data: {
-        boardId: listToCopy.boardId,
-        title: `${listToCopy.title} - Copy`,
+        boardId: foundList.boardId,
+        title: `${foundList.title} - Copy`,
         position: newPosition,
         cards: {
           createMany: {
-            data: listToCopy.cards.map((card) => ({
+            data: foundList.cards.map((card) => ({
               title: card.title,
               description: card.description,
               position: card.position,
@@ -65,19 +54,17 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     })
 
     // await createAuditLog({
-    //   entityTitle: list.title,
-    //   entityId: list.id,
+    //   entityTitle: savedListCopy.title,
+    //   entityId: savedListCopy.id,
     //   entityType: ENTITY_TYPE.LIST,
     //   action: ACTION.CREATE,
     // })
-  } catch (error) {
-    return {
-      error: 'Failed to copy.',
-    }
-  }
 
-  revalidatePath(`/board/${boardId}`)
-  return { data: list }
+    revalidatePath(`/board/${boardId}`)
+    return { data: savedListCopy }
+  } catch (err) {
+    return { error: 'Failed to copy list' }
+  }
 }
 
-export const copyList = genServerAction(CopyList, handler)
+export const copyList = genServerAction(CopyListSchema, handler)

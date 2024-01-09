@@ -14,11 +14,7 @@ import { ACTION, ENTITY_TYPE } from '@prisma/client'
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
 
-  if (!userId || !orgId) {
-    return {
-      error: 'Unauthorized',
-    }
-  }
+  if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
   const { id, boardId } = data
   let card
@@ -41,7 +37,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   entityType: ENTITY_TYPE.CARD,
     //   action: ACTION.DELETE,
     // })
-  } catch (error) {
+  } catch (err) {
     return {
       error: 'Failed to delete.',
     }

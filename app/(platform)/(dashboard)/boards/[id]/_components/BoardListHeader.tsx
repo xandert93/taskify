@@ -9,7 +9,7 @@ import { useServerAction } from '@/hooks/useServerAction'
 import { updateListTitle } from '@/actions/list/update-list-title'
 import { FormInput } from '@/components/form/FormInput'
 
-import { ListSettings } from './ListSettings'
+import { BoardListSettings } from './BoardListSettings'
 
 type Props = {
   list: List
@@ -93,7 +93,7 @@ export const BoardListHeader = ({ list, onAddCard }: Props) => {
   return (
     <div className="flex justify-between items-start pt-2 px-2 text-sm font-semibold">
       {!isFormOpen ? <FormToggle /> : <Form />}
-      <ListSettings onAddCard={onAddCard} list={list} />
+      <BoardListSettings onAddCard={onAddCard} list={list} />
     </div>
   )
 }

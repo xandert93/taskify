@@ -16,7 +16,6 @@ import { ACTION, ENTITY_TYPE } from '@prisma/client'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
-
   if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
   // const isPro = await checkSubscription()

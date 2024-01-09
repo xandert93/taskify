@@ -14,11 +14,7 @@ import { InputType, ReturnType } from './types'
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
 
-  if (!userId || !orgId) {
-    return {
-      error: 'Unauthorized',
-    }
-  }
+  if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
   const { title, boardId, listId } = data
   let card
@@ -61,7 +57,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   entityType: ENTITY_TYPE.CARD,
     //   action: ACTION.CREATE,
     // })
-  } catch (error) {
+  } catch (err) {
     return {
       error: 'Failed to create.',
     }

@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-export const DeleteList = z.object({
+export const DeleteListSchema = z.object({
   id: z.string(),
   boardId: z.string(),
-});
+})

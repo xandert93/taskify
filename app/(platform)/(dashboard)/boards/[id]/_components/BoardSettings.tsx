@@ -17,7 +17,7 @@ type Props = {
   id: string
 }
 
-export const BoardSettingsMenu = ({ id }: Props) => {
+export const BoardSettings = ({ id }: Props) => {
   return (
     <Popover>
       <PopoverTrigger asChild>

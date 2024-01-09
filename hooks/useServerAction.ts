@@ -2,53 +2,51 @@ import { useState, useCallback } from 'react'
 
 import { ActionState, FieldErrors } from '@/lib/gen-server-action'
 
-type Action<TInput, TOutput> = (data: TInput) => Promise<ActionState<TInput, TOutput>>
+type Action<TArg, TOutput> = (arg: TArg) => Promise<ActionState<TArg, TOutput>>
 
-interface Options<TOutput> {
+interface Opts<TOutput> {
   onSuccess?: (data: TOutput) => void
-  onError?: (error: string) => void
+  onError?: (err: string) => void
   onComplete?: () => void
 }
 
 // similar to TSQ's useMutation hook
 
-export const useServerAction = <TInput, TOutput>(
-  action: Action<TInput, TOutput>,
-  options: Options<TOutput> = {}
+export const useServerAction = <TArg, TOutput>(
+  action: Action<TArg, TOutput>,
+  opts: Opts<TOutput> = {}
 ) => {
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors<TInput> | undefined>(
-    undefined
-  )
-  const [errorMessage, setErrorMessage] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors<TArg> | undefined>(undefined)
+  const [errMessage, setErrMessage] = useState('')
   const [data, setData] = useState<TOutput | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
   const mutate = useCallback(
-    async (input: TInput) => {
+    async (arg: TArg) => {
       setIsLoading(true)
 
       try {
-        const result = await action(input)
+        const result = await action(arg)
         if (!result) return // something went wrong out of our reach
 
         setFieldErrors(result.fieldErrors)
 
         if (result.error) {
           // if server error
-          setErrorMessage(result.error)
-          options.onError?.(result.error)
+          setErrMessage(result.error)
+          opts.onError?.(result.error)
         }
 
         if (result.data) {
           setData(result.data)
-          options.onSuccess?.(result.data)
+          opts.onSuccess?.(result.data)
         }
       } finally {
         setIsLoading(false)
-        options.onComplete?.()
+        opts.onComplete?.()
       }
     },
-    [action, options]
+    [action, opts]
   )
 
   return {
@@ -56,6 +54,6 @@ export const useServerAction = <TInput, TOutput>(
     data,
     isLoading,
     fieldErrors,
-    errorMessage,
+    errMessage,
   }
 }

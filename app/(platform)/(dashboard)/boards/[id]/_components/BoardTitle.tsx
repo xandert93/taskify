@@ -57,7 +57,7 @@ export const BoardTitle = ({ board }: Props) => {
   }
 
   const handleBlur = () => {
-    formRef.current?.requestSubmit() // 🔥 formEl.requestSubmit() is a more modern and versatile method that respects HTML5 form validation and event listeners, making it a preferred choice. Yet, in rare event that we want to trigger form submission without validation (or custom event handling), use formEl.submit()
+    formRef.current?.requestSubmit()
   }
 
   if (!isFormOpen) {
@@ -82,7 +82,7 @@ export const BoardTitle = ({ board }: Props) => {
           id="title"
           onBlur={handleBlur}
           defaultValue={title}
-          className="text-white text-lg font-bold px-[7px] py-1 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
+          className="text-white text-lg font-bold px-2 py-1 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
         />
       </form>
     )

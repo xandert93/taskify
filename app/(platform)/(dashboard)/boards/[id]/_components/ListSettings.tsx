@@ -13,30 +13,28 @@ import {
 } from '@/components/ui/popover'
 import { useServerAction } from '@/hooks/useServerAction'
 import { Button } from '@/components/ui/button'
-import { copyList } from '@/actions/copy-list'
+import { copyList } from '@/actions/list/copy-list'
 import { deleteList } from '@/actions/list/delete-list'
-import { FormSubmit } from '@/components/form/form-submit'
+import { SubmitButton } from '@/components/form/SubmitButton'
 import { Separator } from '@/components/ui/separator'
 
-interface ListOptionsProps {
-  data: List
+interface Props {
+  list: List
   onAddCard: () => void
 }
 
-export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
+export const ListSettings = ({ list, onAddCard }: Props) => {
   const closeRef = useRef<ElementRef<'button'>>(null)
 
-  const { execute: executeDelete } = useServerAction(deleteList, {
+  const { mutate: executeDelete } = useServerAction(deleteList, {
     onSuccess: (data) => {
       toast.success(`List "${data.title}" deleted`)
       closeRef.current?.click()
     },
-    onError: (error) => {
-      toast.error(error)
-    },
+    onError: toast.error,
   })
 
-  const { execute: executeCopy } = useServerAction(copyList, {
+  const { mutate: executeCopy } = useServerAction(copyList, {
     onSuccess: (data) => {
       toast.success(`List "${data.title}" copied`)
       closeRef.current?.click()
@@ -46,14 +44,14 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
     },
   })
 
-  const onDelete = (formData: FormData) => {
+  const handleDelete = (formData: FormData) => {
     const id = formData.get('id') as string
     const boardId = formData.get('boardId') as string
 
     executeDelete({ id, boardId })
   }
 
-  const onCopy = (formData: FormData) => {
+  const handleCopy = (formData: FormData) => {
     const id = formData.get('id') as string
     const boardId = formData.get('boardId') as string
 
@@ -63,13 +61,13 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className="h-auto w-auto p-2" variant="ghost">
+        <Button className="h-auto w-auto" variant="ghost">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="px-0 pt-3 pb-3" side="bottom" align="start">
+      <PopoverContent className="px-0 py-3" side="bottom" align="start">
         <div className="text-sm font-medium text-center text-neutral-600 pb-4">
-          List actions
+          Actions
         </div>
         <PopoverClose ref={closeRef} asChild>
           <Button
@@ -86,26 +84,26 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
         >
           Add card...
         </Button>
-        <form action={onCopy}>
-          <input hidden name="id" id="id" value={data.id} />
-          <input hidden name="boardId" id="boardId" value={data.boardId} />
-          <FormSubmit
+        <form action={handleCopy}>
+          <input hidden name="id" id="id" value={list.id} />
+          <input hidden name="boardId" id="boardId" value={list.boardId} />
+          <SubmitButton
             variant="ghost"
             className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
           >
             Copy list...
-          </FormSubmit>
+          </SubmitButton>
         </form>
         <Separator />
-        <form action={onDelete}>
-          <input hidden name="id" id="id" value={data.id} />
-          <input hidden name="boardId" id="boardId" value={data.boardId} />
-          <FormSubmit
+        <form action={handleDelete}>
+          <input hidden name="id" id="id" value={list.id} />
+          <input hidden name="boardId" id="boardId" value={list.boardId} />
+          <SubmitButton
             variant="ghost"
             className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
           >
             Delete this list
-          </FormSubmit>
+          </SubmitButton>
         </form>
       </PopoverContent>
     </Popover>

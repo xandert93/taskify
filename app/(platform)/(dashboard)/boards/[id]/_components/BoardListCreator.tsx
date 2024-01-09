@@ -54,7 +54,7 @@ export const BoardListCreator = () => {
   }
 
   return (
-    <div className="shrink-0 h-full w-[272px] select-none">
+    <div className="shrink-0 w-72">
       {!isFormOpen ? (
         <BoardListCreateFormToggle showForm={showForm} />
       ) : (

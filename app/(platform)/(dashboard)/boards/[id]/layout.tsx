@@ -35,7 +35,7 @@ export default async function SingleBoardPageLayout({ children, params }: Props)
 
   return (
     <div
-      className="bg-no-repeat bg-cover bg-center brightness-90"
+      className="bg-no-repeat bg-cover bg-center brightness-90 select-none"
       style={{ backgroundImage: `url(${board.imageFullUrl})` }}
     >
       <BoardNavBar board={board} />

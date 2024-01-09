@@ -10,7 +10,7 @@ import { useServerAction } from '@/hooks/useServerAction'
 // import { updateCardOrder } from '@/actions/update-card-order'
 
 import { BoardListCreator } from './BoardListCreator'
-import { ListItem } from './list-item'
+import { BoardList } from './BoardList'
 
 interface Props {
   lists: ListWithCards[]
@@ -40,9 +40,9 @@ export const BoardListsDisplay = ({ boardId, lists: initialLists }: Props) => {
   //   onError: toast.error,
   // })
 
-  // useEffect(() => {
-  //   setLists(initialLists)
-  // }, [initialLists])
+  useEffect(() => {
+    setLists(initialLists)
+  }, [initialLists])
 
   // const handleDragEnd = (result: any) => {
   //   const { destination, source, type } = result
@@ -140,10 +140,9 @@ export const BoardListsDisplay = ({ boardId, lists: initialLists }: Props) => {
   //           ref={provided.innerRef}
   //           className="flex gap-x-3 h-full"
   //         >
-  //           <CardList lists={lists} />
+  //           <BoardListsList lists={lists} />
   //           {provided.placeholder}
   //           <BoardListCreator />
-  //           <div className="flex-shrink-0 w-1" />
   //         </ol>
   //       )}
   //     </Droppable>
@@ -152,13 +151,15 @@ export const BoardListsDisplay = ({ boardId, lists: initialLists }: Props) => {
 
   return (
     <div className="overflow-x-auto">
-      <BoardListCreator />
+      <div className="flex gap-3">
+        <BoardListsList lists={lists} />
+        <BoardListCreator />
+        <div className="shrink-0 w-1" />
+      </div>
     </div>
   )
 }
 
-// const CardList = ({ lists }: { lists: ListWithCards[] }) => {
-//   return lists.map((list, index) => {
-//     return <ListItem key={list.id} index={index} data={list} />
-//   })
-// }
+const BoardListsList = ({ lists }: { lists: ListWithCards[] }) => {
+  return lists.map((list, index) => <BoardList key={list.id} index={index} list={list} />)
+}

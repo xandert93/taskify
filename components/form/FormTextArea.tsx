@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 
 import { FormErrors } from './FormErrors'
 
-interface FormTextareaProps {
+type Props = {
   id: string
   label?: string
   placeholder?: string
@@ -23,7 +23,7 @@ interface FormTextareaProps {
   defaultValue?: string
 }
 
-export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
+export const FormTextArea = forwardRef<HTMLTextAreaElement, Props>(
   (
     {
       id,
@@ -74,4 +74,4 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
   }
 )
 
-FormTextarea.displayName = 'FormTextarea'
+FormTextArea.displayName = 'FormTextArea'

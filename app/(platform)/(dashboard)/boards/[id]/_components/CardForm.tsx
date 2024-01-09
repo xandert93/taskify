@@ -9,29 +9,27 @@ import { useOnClickOutside, useEventListener } from 'usehooks-ts'
 import { useServerAction } from '@/hooks/useServerAction'
 import { createCard } from '@/actions/card/create-card'
 import { Button } from '@/components/ui/button'
-import { FormSubmit } from '@/components/form/form-submit'
-import { FormTextarea } from '@/components/form/form-textarea'
+import { SubmitButton } from '@/components/form/SubmitButton'
+import { FormTextArea } from '@/components/form/FormTextArea'
 
-interface CardFormProps {
+type Props = {
   listId: string
   enableEditing: () => void
   disableEditing: () => void
   isEditing: boolean
 }
 
-export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
+export const CardForm = forwardRef<HTMLTextAreaElement, Props>(
   ({ listId, enableEditing, disableEditing, isEditing }, ref) => {
     const params = useParams()
     const formRef = useRef<ElementRef<'form'>>(null)
 
-    const { execute, fieldErrors } = useServerAction(createCard, {
+    const { mutate, fieldErrors } = useServerAction(createCard, {
       onSuccess: (data) => {
         toast.success(`Card "${data.title}" created`)
         formRef.current?.reset()
       },
-      onError: (error) => {
-        toast.error(error)
-      },
+      onError: toast.error,
     })
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -55,13 +53,13 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
       const listId = formData.get('listId') as string
       const boardId = params.boardId as string
 
-      execute({ title, listId, boardId })
+      mutate({ title, listId, boardId })
     }
 
     if (isEditing) {
       return (
         <form ref={formRef} action={onSubmit} className="m-1 py-0.5 px-1 space-y-4">
-          <FormTextarea
+          <FormTextArea
             id="title"
             onKeyDown={onTextareakeyDown}
             ref={ref}
@@ -70,7 +68,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
           />
           <input hidden id="listId" name="listId" value={listId} />
           <div className="flex items-center gap-x-1">
-            <FormSubmit>Add card</FormSubmit>
+            <SubmitButton>Add card</SubmitButton>
             <Button onClick={disableEditing} size="sm" variant="ghost">
               <X className="h-5 w-5" />
             </Button>

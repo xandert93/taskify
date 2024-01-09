@@ -20,10 +20,10 @@ import { Separator } from '@/components/ui/separator'
 
 interface Props {
   list: List
-  onAddCard: () => void
+  openTaskCreateForm: () => void
 }
 
-export const BoardListSettings = ({ list, onAddCard }: Props) => {
+export const BoardListSettings = ({ list, openTaskCreateForm }: Props) => {
   const closeButtonRef = useRef<ElementRef<'button'>>(null)
 
   return (
@@ -48,7 +48,7 @@ export const BoardListSettings = ({ list, onAddCard }: Props) => {
         <Button
           variant="ghost"
           className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
-          onClick={onAddCard}
+          onClick={openTaskCreateForm}
         >
           Add task
         </Button>

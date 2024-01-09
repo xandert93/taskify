@@ -8,32 +8,21 @@ import { db } from '@/lib/db'
 // import { createAuditLog } from '@/lib/create-audit-log'
 import { genServerAction } from '@/lib/gen-server-action'
 
-import { CreateCard } from './schema'
+import { CreateCardSchema } from './schema'
 import { InputType, ReturnType } from './types'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
-
   if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
   const { title, boardId, listId } = data
-  let card
 
   try {
-    const list = await db.list.findUnique({
-      where: {
-        id: listId,
-        board: {
-          orgId,
-        },
-      },
+    const foundList = await db.list.findUnique({
+      where: { id: listId, board: { orgId } },
     })
 
-    if (!list) {
-      return {
-        error: 'List not found',
-      }
-    }
+    if (!foundList) return { error: 'That list does not exist' }
 
     const lastCard = await db.card.findFirst({
       where: { listId },
@@ -43,12 +32,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
     const newPosition = lastCard ? lastCard.position + 1 : 1
 
-    card = await db.card.create({
-      data: {
-        title,
-        listId,
-        position: newPosition,
-      },
+    const savedCard = await db.card.create({
+      data: { title, listId, position: newPosition },
     })
 
     // await createAuditLog({
@@ -57,14 +42,12 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   entityType: ENTITY_TYPE.CARD,
     //   action: ACTION.CREATE,
     // })
-  } catch (err) {
-    return {
-      error: 'Failed to create.',
-    }
-  }
 
-  revalidatePath(`/board/${boardId}`)
-  return { data: card }
+    revalidatePath(`/boards/${boardId}`)
+    return { data: savedCard }
+  } catch (err) {
+    return { error: 'Unable to create task. Please try again later.' }
+  }
 }
 
-export const createCard = genServerAction(CreateCard, handler)
+export const createCard = genServerAction(CreateCardSchema, handler)

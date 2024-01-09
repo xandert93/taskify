@@ -45,7 +45,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   action: ACTION.CREATE,
     // })
 
-    revalidatePath(`/board/${boardId}`)
+    revalidatePath(`/boards/${boardId}`)
     return { data: savedList }
   } catch (err) {
     return { error: 'Failed to create list' }

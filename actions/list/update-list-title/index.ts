@@ -30,7 +30,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   action: ACTION.UPDATE,
     // })
 
-    revalidatePath(`/board/${boardId}`)
+    revalidatePath(`/boards/${boardId}`)
     return { data: updatedList }
   } catch (err) {
     return { error: 'Failed to update list title' }

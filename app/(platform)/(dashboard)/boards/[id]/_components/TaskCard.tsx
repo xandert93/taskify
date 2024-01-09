@@ -10,7 +10,7 @@ type Props = {
   index: number
 }
 
-export const CardItem = ({ card, index }: Props) => {
+export const TaskCard = ({ card, index }: Props) => {
   // const cardModal = useCardModal()
 
   // return (
@@ -20,15 +20,19 @@ export const CardItem = ({ card, index }: Props) => {
   //         {...provided.draggableProps}
   //         {...provided.dragHandleProps}
   //         ref={provided.innerRef}
-  //         role="button"
   //         onClick={() => cardModal.onOpen(card.id)}
-  //         className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white rounded-md shadow-sm"
   //       >
-  //         {card.title}
   //       </div>
   //     )}
   //   </Draggable>
   // )
 
-  return <p>{card.title}</p>
+  return (
+    <div
+      role="button"
+      className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white rounded-md shadow-sm"
+    >
+      {card.title}
+    </div>
+  )
 }

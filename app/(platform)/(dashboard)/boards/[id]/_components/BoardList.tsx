@@ -1,13 +1,13 @@
 'use client'
 
-import { ElementRef, useRef, useState } from 'react'
+import { ElementRef, useEffect, useRef, useState } from 'react'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 
 import { cn } from '@/lib/utils'
 import { ListWithCards } from '@/types'
 
-import { CardForm } from './CardForm'
-import { CardItem } from './CardItem'
+import { TaskCreateForm } from './TaskCreateForm'
+import { TaskCard } from './TaskCard'
 import { BoardListHeader } from './BoardListHeader'
 
 interface Props {
@@ -16,25 +16,42 @@ interface Props {
 }
 
 export const BoardList = ({ list, index }: Props) => {
-  const textareaRef = useRef<ElementRef<'textarea'>>(null)
+  const textAreaRef = useRef<ElementRef<'textarea'>>(null)
 
-  const [isEditing, setIsEditing] = useState(false)
+  const [isTaskCreateFormOpen, setIsTaskCreateFormOpen] = useState(false)
 
-  const disableEditing = () => {
-    setIsEditing(false)
-  }
+  const openTaskCreateForm = () => setIsTaskCreateFormOpen(true)
+  const closeTaskCreateForm = () => setIsTaskCreateFormOpen(false)
 
-  const enableEditing = () => {
-    setIsEditing(true)
-    setTimeout(() => {
-      textareaRef.current?.focus()
-    })
-  }
+  // ⚠️ should be able to exist just in <BoardListHeader>, but encountering TS error to do with forwarding the ref...
+  useEffect(() => {
+    if (!isTaskCreateFormOpen) return
+
+    const textAreaEl = textAreaRef.current!
+    textAreaEl.focus()
+  }, [isTaskCreateFormOpen])
 
   return (
     <article className="shrink-0 w-72">
       <div className="rounded-md bg-[#f1f2f4] shadow-md pb-1">
-        <BoardListHeader list={list} onAddCard={() => {}} />
+        <BoardListHeader list={list} openTaskCreateForm={openTaskCreateForm} />
+        <ol
+          className={cn(
+            'mx-1 px-1 py-0.5 flex flex-col gap-y-2',
+            list.cards.length > 0 ? 'mt-2' : 'mt-0'
+          )}
+        >
+          {list.cards.map((card, index) => (
+            <TaskCard index={index} key={card.id} card={card} />
+          ))}
+        </ol>
+        <TaskCreateForm
+          list={list}
+          ref={textAreaRef}
+          isFormOpen={isTaskCreateFormOpen}
+          openForm={openTaskCreateForm}
+          closeForm={closeTaskCreateForm}
+        />
       </div>
     </article>
   )
@@ -44,7 +61,7 @@ export const BoardList = ({ list, index }: Props) => {
       {(provided) => (
         <article {...provided.draggableProps} ref={provided.innerRef}>
           <div {...provided.dragHandleProps}>
-            <BoardListHeader onAddCard={enableEditing} list={list} />
+            <BoardListHeader openTaskCreateForm={openTaskCreateForm} list={list} />
             <Droppable droppableId={list.id} type="card">
               {(provided) => (
                 <ol
@@ -56,19 +73,12 @@ export const BoardList = ({ list, index }: Props) => {
                   )}
                 >
                   {list.cards.map((card, index) => (
-                    <CardItem index={index} key={card.id} card={card} />
+                    <TaskCard index={index} key={card.id} card={card} />
                   ))}
                   {provided.placeholder}
                 </ol>
               )}
             </Droppable>
-            <CardForm
-              listId={list.id}
-              ref={textareaRef}
-              isEditing={isEditing}
-              enableEditing={enableEditing}
-              disableEditing={disableEditing}
-            />
           </div>
         </article>
       )}

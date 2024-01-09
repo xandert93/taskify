@@ -13,10 +13,10 @@ import { BoardListSettings } from './BoardListSettings'
 
 type Props = {
   list: List
-  onAddCard: () => void
+  openTaskCreateForm: () => void
 }
 
-export const BoardListHeader = ({ list, onAddCard }: Props) => {
+export const BoardListHeader = ({ list, openTaskCreateForm }: Props) => {
   const [title, setTitle] = useState(list.title)
   const [isFormOpen, setIsFormOpen] = useState(false)
 
@@ -93,7 +93,7 @@ export const BoardListHeader = ({ list, onAddCard }: Props) => {
   return (
     <div className="flex justify-between items-start pt-2 px-2 text-sm font-semibold">
       {!isFormOpen ? <FormToggle /> : <Form />}
-      <BoardListSettings onAddCard={onAddCard} list={list} />
+      <BoardListSettings openTaskCreateForm={openTaskCreateForm} list={list} />
     </div>
   )
 }

@@ -60,7 +60,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   action: ACTION.CREATE,
     // })
 
-    revalidatePath(`/board/${boardId}`)
+    revalidatePath(`/boards/${boardId}`)
     return { data: savedListCopy }
   } catch (err) {
     return { error: 'Failed to copy list' }

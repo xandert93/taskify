@@ -13,7 +13,6 @@ import { ACTION, ENTITY_TYPE } from '@prisma/client'
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth()
-
   if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
   const { id, boardId } = data
@@ -43,7 +42,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     }
   }
 
-  revalidatePath(`/board/${boardId}`)
+  revalidatePath(`/boards/${boardId}`)
   return { data: card }
 }
 

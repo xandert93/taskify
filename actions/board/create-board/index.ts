@@ -15,7 +15,6 @@ import { ACTION, ENTITY_TYPE } from '@prisma/client'
 
 const handler = async (rawNewBoard: NewBoard): Promise<ReturnType> => {
   const { userId, orgId } = auth()
-
   if (!userId || !orgId) return { error: 'Insufficient permissions' }
 
   // const isBelowLimit = await hasAvailableCount()
